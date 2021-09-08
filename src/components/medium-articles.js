@@ -1,6 +1,6 @@
 // @ts-check
 import "./medium-article-card.js";
-
+import { encodeObject, decodeObject } from "../services/helper.js";
 const css = `
 <style>
 .cards {
@@ -11,32 +11,37 @@ const css = `
 </style>
 `;
 
-const template = () => `
+const template = (articles) => `
 ${css}
 <section class="cards">
 
-  <medium-article-card></medium-article-card>
-  <medium-article-card></medium-article-card>
-  <medium-article-card></medium-article-card>
+  ${articles
+    .map(
+      (article) =>
+        `<medium-article-card article=${encodeObject(
+          article
+        )}></medium-article-card>`
+    )
+    .join("")}
   
 </section>
 `;
 
 class MediumArticlesComponent extends HTMLElement {
+  get articles() {
+    return decodeObject(this.getAttribute("articles"));
+  }
+
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    this.shadowRoot.innerHTML = `
-    ${template()}
-    `;
+    this.render();
   }
 
-  connectedCallback() {
-    console.log("connectedCallback");
-    const articles = JSON.parse(
-      decodeURIComponent(this.getAttribute("articles"))
-    );
-    console.log(articles);
+  render() {
+    this.shadowRoot.innerHTML = `
+    ${template(this.articles)}
+    `;
   }
 }
 

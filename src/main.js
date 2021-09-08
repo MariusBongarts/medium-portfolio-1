@@ -1,5 +1,6 @@
 // @ts-check
 import { getRssFeed } from "./services/medium-feed.js";
+import { encodeObject } from "./services/helper.js";
 import "./components/medium-articles.js";
 
 const css = `
@@ -9,7 +10,6 @@ const css = `
 :root {
   --color-action: #e31b6d;
   --color-bg: #D2DBDD;
-  --color-primary: red;
 }
 
 
@@ -25,12 +25,10 @@ const css = `
 </style>
 `;
 
-const template = ({ items, feed }) => `
+const template = ({ articles, feed }) => `
   ${css}
   <div id="medium-portfolio-app">
-    <medium-articles articles="${encodeURIComponent(
-      JSON.stringify(items)
-    )}"></medium-articles>
+    <medium-articles articles="${encodeObject(articles)}"></medium-articles>
   </div>
 `;
 
@@ -42,20 +40,26 @@ class MediumApp extends HTMLElement {
     // this.attachShadow({ mode: "open" });
   }
 
+  get showHeader() {
+    return this.getAttribute("hideHeader") !== null;
+  }
+
   get mediumUsername() {
     return this.getAttribute("username");
   }
+  get maxArticles() {
+    const maxArticles = this.getAttribute("maxArticles");
+    return !isNaN(+maxArticles) ? maxArticles : 10;
+  }
 
-  /**
-   * TODO: Explain lifecycle hooks
-   */
   async connectedCallback() {
     await this.loadRssFeed();
     this.render();
+    console.log("hideHeader: ", this.showHeader);
   }
 
   async loadRssFeed() {
-    this.rssFeed = await getRssFeed(this.mediumUsername);
+    this.rssFeed = await getRssFeed(this.mediumUsername, this.maxArticles);
   }
 
   render() {
@@ -63,4 +67,4 @@ class MediumApp extends HTMLElement {
   }
 }
 
-customElements.define("medium-app", MediumApp);
+customElements.define("medium-portfolio", MediumApp);
