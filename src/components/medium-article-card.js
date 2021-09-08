@@ -5,7 +5,6 @@ const css = `
     max-width: 100%;
 }
 
-
 .card {
     transition: all .4s cubic-bezier(0.175, 0.885, 0, 1);
     width: 350px;
@@ -21,32 +20,22 @@ const css = `
     z-index: 2;
   }
 
-.card--1 .card__img, .card--1 .card__img--hover {
+.card-img, .card--1 .card-img--hover {
     background-image: url('https://miro.medium.com/max/2000/1*xMI6mfY3DL5-NcN0Ej91Mw.jpeg');
 }
 
-.card--2 .card__img, .card--2 .card__img--hover {
-    background-image: url('https://miro.medium.com/max/1400/0*DVQQZegSbvW7SKhR');
-}
-
-
-.card__clock {
-    width: 15px;
-    vertical-align: middle;
-    fill: #AD7D52;
-}
-.card__time {
+.card-time {
     font-size: 12px;
     color: #AD7D52;
     vertical-align: middle;
     margin-left: 5px;
 }
 
-.card__clock-info {
+.card-clock-info {
     float: right;
 }
 
-.card__img {
+.card-img {
     visibility: hidden;
     background-size: cover;
     background-position: center;
@@ -58,7 +47,7 @@ const css = `
   
 }
 
-.card__info-hover {
+.card-info-hover {
     position: absolute;
     padding: 16px;
   width: 100%;
@@ -66,7 +55,7 @@ const css = `
   top: 0;
 }
 
-.card__img--hover {
+.card-img--hover {
     transition: 0.2s all ease-out;
     background-size: cover;
     background-position: center;
@@ -80,7 +69,7 @@ const css = `
 }
 
 
-.card__info {
+.card-info {
     z-index: 2;
     background-color: #fff;
     border-bottom-left-radius: 12px;
@@ -88,7 +77,7 @@ const css = `
     padding: 16px 24px 24px 24px;
 }
 
-.card__category {
+.card-category {
     font-family: 'Raleway', sans-serif;
     text-transform: uppercase;
     font-size: 10px;
@@ -97,7 +86,7 @@ const css = `
     color: #868686;
 }
 
-.card__title a {
+.card-title a {
     margin-top: 5px;
     margin-bottom: 10px;
     font-family: 'Roboto Slab', serif;
@@ -105,8 +94,9 @@ const css = `
     color: black;
 }
 
-.card-body {
-    font-size: 12px;
+.card-footer {
+    margin-top: 10px;
+    font-size: 13px;
     font-family: 'Raleway', sans-serif;
     font-weight: 500;
 }
@@ -114,20 +104,24 @@ const css = `
 .card-author {
     font-weight: 600;
     text-decoration: none;
-    color: var(--action-color);
+    color: var(--color-action);
 }
 
-.card:hover .card__img--hover {
+.card-date {
+    float: right;
+}
+
+.card:hover .card-img--hover {
     height: 100%;
     opacity: 0.3;
 }
 
-.card:hover .card__info {
+.card:hover .card-info {
     background-color: transparent;
     position: relative;
 }
 
-.card:hover .card__info-hover {
+.card:hover .card-info-hover {
     opacity: 1;
 }
 
@@ -138,11 +132,10 @@ const css = `
         border-radius: 0;
         margin-top: 10px;
     }
-    .card__img,.card__info, .card__img--hover  {
+    .card-img,.card-info, .card-img--hover  {
       border-radius: 0 !important;
     }
 }
- 
  
 </style>
 `;
@@ -150,16 +143,16 @@ const css = `
 const template = () => `
 ${css}
 <article class="card card--1">
-  <div class="card__img"></div>
+  <div class="card-img"></div>
   <a href="#" class="card_link">
-     <div class="card__img--hover"></div>
+     <div class="card-img--hover"></div>
    </a>
-  <div class="card__info">
+  <div class="card-info">
 
-    <div class="card__title"><a href="www.google.de">Showcase Your Medium Articles with Web Components: Part 1 - Basics</a></div>
-        <span class="card__category"> Typescript, Javascript, DeVOps, Frontend</span>
+    <div class="card-title"><a href="www.google.de">Showcase Your Medium Articles with Web Components: Part 1 - Basics</a></div>
+        <span class="card-category"> Typescript, Javascript, DeVOps, Frontend</span>
     <br>
-    <span class="card-body">by <a href="#" class="card-author" title="author">Celeste Mills</a></span>
+    <div class="card-footer"><span>by</span> <a href="#" class="card-author" title="author">Celeste Mills</a><span class="card-date">10.08.2021</span></div>
   </div>
 </article>
 

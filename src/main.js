@@ -4,13 +4,12 @@ import "./components/medium-articles.js";
 
 const css = `
 <style>
-@import url('https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700');
-@import url('https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
-
+@import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
 :root {
   --color-action: #e31b6d;
-  --color-primary: red;
   --color-bg: #D2DBDD;
+  --color-primary: red;
 }
 
 
@@ -18,12 +17,9 @@ const css = `
   font-family: 'Roboto Slab', serif;
   background-color: var(--color-bg);
   display: flex;
-  display: -webkit-flex;
-  -webkit-justify-content: center;
-  -webkit-align-items: center;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  padding: 20px 0px;
 }
 
 </style>
@@ -32,9 +28,9 @@ const css = `
 const template = ({ items, feed }) => `
   ${css}
   <div id="medium-portfolio-app">
-  <medium-articles articles="${encodeURIComponent(
-    JSON.stringify(items)
-  )}"></medium-articles>
+    <medium-articles articles="${encodeURIComponent(
+      JSON.stringify(items)
+    )}"></medium-articles>
   </div>
 `;
 
