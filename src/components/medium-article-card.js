@@ -1,4 +1,7 @@
+import { encodeObject } from "../services/helper.js";
+import "./medium-category-chips.js";
 // @ts-check
+
 const styled = ({ thumbnail }) => `
 <style>
 :host {
@@ -68,7 +71,6 @@ const styled = ({ thumbnail }) => `
     top: 0;
 }
 
-
 .card-info {
     z-index: 2;
     display: flex;
@@ -76,8 +78,8 @@ const styled = ({ thumbnail }) => `
     background-color: #fff;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
-    padding: 16px 24px 24px 24px;
-    height: 120px;
+    padding: 16px 24px 16px 24px;
+    height: 140px;
 }
 
 .card-category {
@@ -128,6 +130,10 @@ const styled = ({ thumbnail }) => `
     opacity: 1;
 }
 
+medium-category-chips {
+    margin-top: auto;
+}
+
 @media only screen and (max-width: 580px) {
     .card {
         width: 100%;
@@ -140,19 +146,6 @@ const styled = ({ thumbnail }) => `
     }
 }
 
-.chip {
-    display: inline-block;
-    box-shadow: 0px 13px 10px -7px rgba(0, 0, 0,0.1);
-    padding: 1px 2px;
-    margin: 0 2px;
-    height: 12px;
-    font-size: 10px;
-    line-height: 12px;
-    text-align: center;
-    border-radius: 25px;
-    background-color: #f1f1f1;
-  }
- 
 </style>
 `;
 
@@ -174,18 +167,17 @@ const template = ({
     <div class="card-info">
 
         <div class="card-title"><a target="_blank" href="${link}">${title}</a></div>
+
+        <medium-category-chips categories="${encodeObject(
+          categories
+        )}"></medium-category-chips>
         
-        ${categories
-          .map(
-            (category) => `<div class="chip card-category">${category}</div>`
-          )
-          .join("")}
-            <span class="card-category"></span>
-        <br>
         <div class="card-footer">
         <span>by</span> 
         <a target="_blank" href="${userLink}" class="card-author" title="author">${author}</a>
-        <span class="card-date">${new Date().toLocaleDateString()}</span></div>
+        <span class="card-date">${new Date(
+          pubDate
+        ).toLocaleDateString()}</span></div>
     </div>
     </article>
 `;
@@ -199,7 +191,6 @@ class MediumArticleCardComponent extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this.render();
-    console.log(this.article);
   }
 
   render() {

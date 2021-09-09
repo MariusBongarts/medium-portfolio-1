@@ -10,6 +10,8 @@ const css = `
 :root {
   --color-action: #e31b6d;
   --color-bg: #D2DBDD;
+  --color-chip-bg: #f2f2f2;
+  --color-chip-bg-hover: #e6e6e6;
 }
 
 
@@ -40,10 +42,6 @@ class MediumApp extends HTMLElement {
     // this.attachShadow({ mode: "open" });
   }
 
-  get showHeader() {
-    return this.getAttribute("hideHeader") !== null;
-  }
-
   get mediumUsername() {
     return this.getAttribute("username");
   }
@@ -55,7 +53,6 @@ class MediumApp extends HTMLElement {
   async connectedCallback() {
     await this.loadRssFeed();
     this.render();
-    console.log("hideHeader: ", this.showHeader);
   }
 
   async loadRssFeed() {
