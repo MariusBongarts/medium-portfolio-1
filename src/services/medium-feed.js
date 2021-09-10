@@ -23,5 +23,7 @@ export async function getRssFeed(username = "mariusbongarts11", maxArticles) {
     throw new Error("Pass a valid medium username.");
   }
 
+  console.log(feed);
+
   return { feed, articles };
 }

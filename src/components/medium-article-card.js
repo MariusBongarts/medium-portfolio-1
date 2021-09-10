@@ -1,6 +1,6 @@
+// @ts-check
 import { encodeObject } from "../services/helper.js";
 import "./medium-category-chips.js";
-// @ts-check
 
 const styled = ({ thumbnail }) => `
 <style>
@@ -79,7 +79,7 @@ const styled = ({ thumbnail }) => `
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
     padding: 16px 24px 16px 24px;
-    height: 140px;
+    height: 155px;
 }
 
 .card-category {
@@ -149,39 +149,6 @@ medium-category-chips {
 </style>
 `;
 
-const template = ({
-  thumbnail,
-  title,
-  categories,
-  author,
-  link,
-  pubDate,
-  userLink,
-}) => `
-    ${styled({ thumbnail })}
-    <article class="card card--1">
-    <div class="card-img"></div>
-    <a href="${link}" target="_blank" class="card_link">
-        <div class="card-img--hover"></div>
-    </a>
-    <div class="card-info">
-
-        <div class="card-title"><a target="_blank" href="${link}">${title}</a></div>
-
-        <medium-category-chips categories="${encodeObject(
-          categories
-        )}"></medium-category-chips>
-        
-        <div class="card-footer">
-        <span>by</span> 
-        <a target="_blank" href="${userLink}" class="card-author" title="author">${author}</a>
-        <span class="card-date">${new Date(
-          pubDate
-        ).toLocaleDateString()}</span></div>
-    </div>
-    </article>
-`;
-
 class MediumArticleCardComponent extends HTMLElement {
   get article() {
     return JSON.parse(decodeURIComponent(this.getAttribute("article")));
@@ -195,7 +162,32 @@ class MediumArticleCardComponent extends HTMLElement {
 
   render() {
     this.shadowRoot.innerHTML = `
-    ${template(this.article)}
+    ${styled({ thumbnail: this.article.thumbnail })}
+    <article class="card card--1">
+    <div class="card-img"></div>
+    <a href="${this.article.link}" target="_blank" class="card_link">
+        <div class="card-img--hover"></div>
+    </a>
+    <div class="card-info">
+
+        <div class="card-title"><a target="_blank" href="${
+          this.article.link
+        }">${this.article.title}</a></div>
+
+        <medium-category-chips categories="${encodeObject(
+          this.article.categories
+        )}"></medium-category-chips>
+        
+        <div class="card-footer">
+        <span>by</span> 
+        <a target="_blank" href="${
+          this.article.userLink
+        }" class="card-author" title="author">${this.article.author}</a>
+        <span class="card-date">${new Date(
+          this.article.pubDate
+        ).toLocaleDateString()}</span></div>
+    </div>
+    </article>
     `;
   }
 }
