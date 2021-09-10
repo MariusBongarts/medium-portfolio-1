@@ -37,6 +37,10 @@ class MediumCategoryChip extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
+    this.render();
+  }
+
+  render() {
     const template = document.getElementById(TEMPLATE_ID);
     const templateContent = template.content;
     this.shadowRoot.appendChild(templateContent.cloneNode(true));

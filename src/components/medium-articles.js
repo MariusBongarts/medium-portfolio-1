@@ -11,22 +11,6 @@ const css = `
 </style>
 `;
 
-const template = (articles) => `
-${css}
-<section class="cards">
-
-  ${articles
-    .map(
-      (article) =>
-        `<medium-article-card article=${encodeObject(
-          article
-        )}></medium-article-card>`
-    )
-    .join("")}
-  
-</section>
-`;
-
 class MediumArticlesComponent extends HTMLElement {
   get articles() {
     return decodeObject(this.getAttribute("articles"));
@@ -40,7 +24,19 @@ class MediumArticlesComponent extends HTMLElement {
 
   render() {
     this.shadowRoot.innerHTML = `
-    ${template(this.articles)}
+    ${css}
+    <section class="cards">
+
+    ${this.articles
+      .map(
+        (article) =>
+          `<medium-article-card article=${encodeObject(
+            article
+          )}></medium-article-card>`
+      )
+      .join("")}
+    
+    </section>
     `;
   }
 }

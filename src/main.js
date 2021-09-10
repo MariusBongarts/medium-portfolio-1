@@ -2,6 +2,7 @@
 import { getRssFeed } from "./services/medium-feed.js";
 import { encodeObject } from "./services/helper.js";
 import "./components/medium-articles.js";
+import "./components/medium-header.js";
 
 const css = `
 <style>
@@ -19,6 +20,7 @@ const css = `
   font-family: 'Roboto Slab', serif;
   background-color: var(--color-bg);
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   padding: 20px 0px;
@@ -27,27 +29,26 @@ const css = `
 </style>
 `;
 
-const template = ({ articles, feed }) => `
-  ${css}
-  <div id="medium-portfolio-app">
-    <medium-articles articles="${encodeObject(articles)}"></medium-articles>
-  </div>
-`;
-
-class MediumApp extends HTMLElement {
+const DEFAULT_MAX_ARTICLES = 10;
+class MediumPortfolio extends HTMLElement {
   rssFeed;
 
-  constructor() {
-    super();
-    // this.attachShadow({ mode: "open" });
+  get hideHeader() {
+    return this.getAttribute("hideHeader") !== null;
   }
 
   get mediumUsername() {
     return this.getAttribute("username");
   }
+
   get maxArticles() {
-    const maxArticles = this.getAttribute("maxArticles");
-    return !isNaN(+maxArticles) ? maxArticles : 10;
+    const maxArticles =
+      this.getAttribute("maxArticles") ?? DEFAULT_MAX_ARTICLES;
+    return !isNaN(+maxArticles) ? maxArticles : DEFAULT_MAX_ARTICLES;
+  }
+
+  constructor() {
+    super();
   }
 
   async connectedCallback() {
@@ -60,8 +61,26 @@ class MediumApp extends HTMLElement {
   }
 
   render() {
-    this.innerHTML += template(this.rssFeed);
+    this.innerHTML += `
+    ${css}
+    <div id="medium-portfolio-app">
+  
+    ${
+      this.hideHeader
+        ? ""
+        : `<medium-header title="${
+            this.rssFeed.feed.title
+          }" image=${encodeURIComponent(
+            this.rssFeed.feed.image
+          )}></medium-header>`
+    }
+    
+    <medium-articles articles="${encodeObject(
+      this.rssFeed.articles
+    )}"></medium-articles>
+    </div>
+    `;
   }
 }
 
-customElements.define("medium-portfolio", MediumApp);
+customElements.define("medium-portfolio", MediumPortfolio);
