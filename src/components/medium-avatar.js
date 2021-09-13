@@ -6,7 +6,6 @@ const css = `
         width: 50px;
         border-radius: 50%;
         box-shadow: 0px 13px 10px -7px rgb(0 0 0 / 10%);
-        box-shadow: 0px 13px 10px -7px rgb(0 0 0 / 10%);
     }
 </style>
 `;

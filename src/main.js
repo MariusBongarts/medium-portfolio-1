@@ -1,6 +1,5 @@
 // @ts-check
 import { getRssFeed } from "./services/medium-feed.js";
-import { encodeObject } from "./services/helper.js";
 import "./components/medium-articles.js";
 import "./components/medium-header.js";
 
@@ -54,10 +53,16 @@ class MediumPortfolio extends HTMLElement {
   async connectedCallback() {
     await this.loadRssFeed();
     this.render();
+    this.setArticles();
   }
 
   async loadRssFeed() {
     this.rssFeed = await getRssFeed(this.mediumUsername, this.maxArticles);
+  }
+
+  setArticles() {
+    const mediumArticles = document.querySelector("medium-articles");
+    mediumArticles.articles = this.rssFeed.articles;
   }
 
   render() {
@@ -74,10 +79,9 @@ class MediumPortfolio extends HTMLElement {
             this.rssFeed.feed.image
           )}></medium-header>`
     }
+
+    <medium-articles></medium-articles>
     
-    <medium-articles articles="${encodeObject(
-      this.rssFeed.articles
-    )}"></medium-articles>
     </div>
     `;
   }

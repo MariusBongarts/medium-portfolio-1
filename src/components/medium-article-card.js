@@ -1,5 +1,5 @@
 // @ts-check
-import { encodeObject } from "../services/helper.js";
+import { encodeObject, decodeObject } from "../services/helper.js";
 import "./medium-category-chips.js";
 
 const styled = ({ thumbnail }) => `
@@ -151,7 +151,7 @@ medium-category-chips {
 
 class MediumArticleCardComponent extends HTMLElement {
   get article() {
-    return JSON.parse(decodeURIComponent(this.getAttribute("article")));
+    return decodeObject(this.getAttribute("article"));
   }
 
   constructor() {
@@ -164,29 +164,29 @@ class MediumArticleCardComponent extends HTMLElement {
     this.shadowRoot.innerHTML = `
     ${styled({ thumbnail: this.article.thumbnail })}
     <article class="card card--1">
-    <div class="card-img"></div>
-    <a href="${this.article.link}" target="_blank" class="card_link">
-        <div class="card-img--hover"></div>
-    </a>
-    <div class="card-info">
+        <div class="card-img"></div>
+        <a href="${this.article.link}" target="_blank" class="card_link">
+            <div class="card-img--hover"></div>
+        </a>
+        <div class="card-info">
 
-        <div class="card-title"><a target="_blank" href="${
-          this.article.link
-        }">${this.article.title}</a></div>
+            <div class="card-title"><a target="_blank" href="${
+              this.article.link
+            }">${this.article.title}</a></div>
 
-        <medium-category-chips categories="${encodeObject(
-          this.article.categories
-        )}"></medium-category-chips>
-        
-        <div class="card-footer">
-        <span>by</span> 
-        <a target="_blank" href="${
-          this.article.userLink
-        }" class="card-author" title="author">${this.article.author}</a>
-        <span class="card-date">${new Date(
-          this.article.pubDate
-        ).toLocaleDateString()}</span></div>
-    </div>
+            <medium-category-chips categories="${encodeObject(
+              this.article.categories
+            )}"></medium-category-chips>
+            
+            <div class="card-footer">
+            <span>by</span> 
+            <a target="_blank" href="${
+              this.article.userLink
+            }" class="card-author" title="author">${this.article.author}</a>
+            <span class="card-date">${new Date(
+              this.article.pubDate
+            ).toLocaleDateString()}</span></div>
+        </div>
     </article>
     `;
   }

@@ -11,15 +11,18 @@ const css = `
 </style>
 `;
 
-class MediumArticlesComponent extends HTMLElement {
+export class MediumArticlesComponent extends HTMLElement {
   get articles() {
-    return decodeObject(this.getAttribute("articles"));
+    return this._articles || [];
+  }
+  set articles(articles) {
+    this._articles = articles;
+    this.render();
   }
 
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    this.render();
   }
 
   render() {
