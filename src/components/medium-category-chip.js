@@ -18,20 +18,15 @@ const css = `
 .chip:hover {
       background-color: var(--color-chip-bg-hover);
   }
- 
+
 </style>
 `;
 
-const TEMPLATE_ID = "medium-category-chip-template";
-
-const template = `
-<template id="${TEMPLATE_ID}">
+const template = document.createElement("template");
+template.innerHTML += `
     ${css}
     <div class="chip card-category"><slot></slot></div>
-</template>
 `;
-
-document.body.innerHTML += template;
 
 class MediumCategoryChip extends HTMLElement {
   constructor() {
@@ -41,9 +36,7 @@ class MediumCategoryChip extends HTMLElement {
   }
 
   render() {
-    const template = document.getElementById(TEMPLATE_ID);
-    const templateContent = template.content;
-    this.shadowRoot.appendChild(templateContent.cloneNode(true));
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
 }
 
